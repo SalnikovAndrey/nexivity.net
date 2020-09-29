@@ -26,7 +26,7 @@ particlesJS('particles-js',
         "value": "#ffffff"
       },
       "shape": {
-        "type": "circle",
+        "type": "triangle",
         "stroke": {
           "width": 0,
           "color": "#000000"
@@ -69,8 +69,8 @@ particlesJS('particles-js',
       },
       "move": {
         "enable": true,
-        "speed": 6,
-        "direction": "none",
+        "speed": 2,
+        "direction": "right",
         "random": false,
         "straight": false,
         "out_mode": "out",
@@ -86,7 +86,7 @@ particlesJS('particles-js',
       "events": {
         "onhover": {
           "enable": true,
-          "mode": "repulse"
+          "mode": "grab"
         },
         "onclick": {
           "enable": true,
