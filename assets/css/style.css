@@ -1273,9 +1273,13 @@ body.mobile-nav-active #mobile-nav-toggle i {
   color: #71c55d;
   float: left;
 }
+#contact .info a {
+  color: #222222;
+}
 
 #contact .info p {
   padding: 0 0 10px 50px;
+  color: #71c55d;
   margin-bottom: 20px;
   line-height: 22px;
   font-size: 14px;
