@@ -11,11 +11,71 @@
 
     gtag('config', 'G-1TNJ9RK05G');
   </script>
+  <script>
+    function submitToAPI(e) {
+         e.preventDefault();
+         var URL = "https://4jfdbhks2l.execute-api.ap-southeast-2.amazonaws.com/contactus";
+
+              var Namere = /[A-Za-z]{1}[A-Za-z]/;
+              if (!Namere.test($("#name-input").val())) {
+                           alert ("Name can not less than 2 char");
+                  return;
+              }
+              var mobilere = /[0-9]{10}/;
+              if (!mobilere.test($("#phone-input").val())) {
+                  alert ("Please enter valid mobile number");
+                  return;
+              }
+              if ($("#email-input").val()=="") {
+                  alert ("Please enter your email id");
+                  return;
+              }
+
+              var reeamil = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,6})?$/;
+              if (!reeamil.test($("#email-input").val())) {
+                  alert ("Please enter valid email address");
+                  return;
+              }
+
+         var name = $("#name-input").val();
+         var phone = $("#phone-input").val();
+         var email = $("#email-input").val();
+         var desc = $("#description-input").val();
+         var data = {
+            name : name,
+            phone : phone,
+            email : email,
+            desc : desc
+          };
+
+         $.ajax({
+           type: "POST",
+           url : "https://abc1234.execute-api.us-east-1.amazonaws.com/01/contact",
+           dataType: "json",
+           crossDomain: "true",
+           contentType: "application/json; charset=utf-8",
+           data: JSON.stringify(data),
+
+
+           success: function () {
+             // clear form and show a success message
+             alert("Successfull");
+             document.getElementById("contact-form").reset();
+         location.reload();
+           },
+           error: function () {
+             // show an error message
+             alert("UnSuccessfull");
+           }});
+       }
+   </script>
+
+
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Nexivity</title>
-  <meta content="" name="descriptison">
+  <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
@@ -681,34 +741,38 @@
 
           </div>
 
-<!--          <div class="col-lg-5 col-md-8">-->
-<!--            <div class="form">-->
-<!--              <form action="forms/contact.php" method="post" role="form" class="php-email-form">-->
-<!--                <div class="form-group">-->
-<!--                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />-->
-<!--                  <div class="validate"></div>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />-->
-<!--                  <div class="validate"></div>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />-->
-<!--                  <div class="validate"></div>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>-->
-<!--                  <div class="validate"></div>-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                  <div class="loading">Loading</div>-->
-<!--                  <div class="error-message"></div>-->
-<!--                  <div class="sent-message">Your message has been sent. Thank you!</div>-->
-<!--                </div>-->
-<!--                <div class="text-center"><button type="submit">Send Message</button></div>-->
-<!--              </form>-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="col-lg-5 col-md-8">
+            <div class="form">
+
+
+              <p> This form is under construction</p>
+              <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                <div class="form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <div class="validate"></div>
+                </div>
+                <div class="mb-3">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                </div>
+
+                <div class="text-center"><button type="submit">Send Message</button></div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </section><!-- End Contact Section -->
