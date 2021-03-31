@@ -11,66 +11,8 @@
 
     gtag('config', 'G-1TNJ9RK05G');
   </script>
-  <script>
-    function submitToAPI(e) {
-         e.preventDefault();
-         var URL = "https://4jfdbhks2l.execute-api.ap-southeast-2.amazonaws.com/contactus";
 
-              var Namere = /[A-Za-z]{1}[A-Za-z]/;
-              if (!Namere.test($("#name-input").val())) {
-                           alert ("Name can not less than 2 char");
-                  return;
-              }
-              var mobilere = /[0-9]{10}/;
-              if (!mobilere.test($("#phone-input").val())) {
-                  alert ("Please enter valid mobile number");
-                  return;
-              }
-              if ($("#email-input").val()=="") {
-                  alert ("Please enter your email id");
-                  return;
-              }
-
-              var reeamil = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,6})?$/;
-              if (!reeamil.test($("#email-input").val())) {
-                  alert ("Please enter valid email address");
-                  return;
-              }
-
-         var name = $("#name-input").val();
-         var phone = $("#phone-input").val();
-         var email = $("#email-input").val();
-         var desc = $("#description-input").val();
-         var data = {
-            name : name,
-            phone : phone,
-            email : email,
-            desc : desc
-          };
-
-         $.ajax({
-           type: "POST",
-           url : "https://abc1234.execute-api.us-east-1.amazonaws.com/01/contact",
-           dataType: "json",
-           crossDomain: "true",
-           contentType: "application/json; charset=utf-8",
-           data: JSON.stringify(data),
-
-
-           success: function () {
-             // clear form and show a success message
-             alert("Successfull");
-             document.getElementById("contact-form").reset();
-         location.reload();
-           },
-           error: function () {
-             // show an error message
-             alert("UnSuccessfull");
-           }});
-       }
-   </script>
-
-
+<!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -688,8 +630,7 @@
       <div class="container" data-aos="fade-up">
         <div class="section-title text-center">
           <h2>Contact us</h2>
-<!--          <p class="separator">I am open for collaboration, public speaking about technologies, participation in tech events and socially impactful projects and simply chatting about cutting-edge technologies.-->
-<!--Whether you would like to discuss a long-term project or simply ask for advice - do not hesitate to reach out to me.</p>-->
+<!--          <p class="separator">Let's get in touch.</p>-->
         </div>
 
         <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
@@ -741,36 +682,61 @@
 
           </div>
 
-          <div class="col-lg-5 col-md-8">
-            <div class="form">
+            <div class="col-lg-5 col-md-8">
+                <form method="POST" class="php-email-form">
 
+                  <div class="form-group">
+                    <input type="name" class="form-control" id="name"  placeholder="Your name">
+                  </div>
+                  <div class="form-group">
+                    <input type="email" class="form-control" id="email"  placeholder="Your email address">
+                  </div>
+                  <div class="form-group">
+                    <textarea class="form-control" name="message" id="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+<!--                    <input name="message"  class="form-control" id="message"  placeholder="Your message to us">-->
+                  </div>
+                  <h4 id="response"></h4>
+                  <button type="submit">Submit</button>
+                </form>
 
-              <p> This form is under construction</p>
-              <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                <div class="form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                  <div class="validate"></div>
-                </div>
-                <div class="form-group">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                  <div class="validate"></div>
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                  <div class="validate"></div>
-                </div>
-                <div class="form-group">
-                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                  <div class="validate"></div>
-                </div>
-                <div class="mb-3">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-                </div>
+                <script>
+                  (() => {
+                    const form = document.querySelector('form');
+                    const submitResponse = document.querySelector('#response');
+                    const formURL = 'https://4jfdbhks2l.execute-api.ap-southeast-2.amazonaws.com/contactus';
 
-                <div class="text-center"><button type="submit">Send Message</button></div>
-              </form>
+                    form.onsubmit = e => {
+                      e.preventDefault();
+
+                      // Capture the form data
+                      let data = {};
+                      Array.from(form).map(input => (data[input.id] = input.value));
+                      console.log('Sending: ', JSON.stringify(data));
+                      submitResponse.innerHTML = 'Sending...'
+
+                      // Create the AJAX request
+                      var xhr = new XMLHttpRequest();
+                      xhr.open(form.method, formURL, true);
+                      xhr.setRequestHeader('Accept', 'application/json; charset=utf-8');
+                      xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+                      // Send the collected data as JSON
+                      xhr.send(JSON.stringify(data));
+
+                      xhr.onloadend = response => {
+                        if (response.target.status === 200) {
+                          form.reset();
+                          submitResponse.innerHTML = 'Your message has been sent! ';
+                        } else {
+                          submitResponse.innerHTML = 'Ooops! Try again please or just send us email.';
+                          console.error(JSON.parse(response));
+                        }
+                      };
+                    };
+                  })();
+                  </script>
+                </div>
+              </div>
             </div>
           </div>
         </div>
